@@ -7,19 +7,40 @@
 </head>
 <body>
     <h1>AWS API Gateway呼び出し</h1>
-    <button onclick="callApiGateway()">APIを実行</button>
+    
+    <div>
+        <label for="jsonInput">送信するJSONデータ:</label><br>
+        <textarea id="jsonInput" rows="5" cols="50" placeholder='{"name": "太郎", "age": 30}'></textarea><br><br>
+        <button onclick="callApiGateway()">APIを実行</button>
+    </div>
+    
     <div id="result"></div>
 
     <script>
         async function callApiGateway() {
             const apiUrl = 'https://13vhqp41dd.execute-api.us-east-1.amazonaws.com/test20250715-teamx';
+            const jsonInput = '{"input_text": "an image of cat"}';
+            
+            let requestBody = null;
+            let method = 'GET';
+            
+            if (jsonInput.trim()) {
+                try {
+                    requestBody = JSON.parse(jsonInput);
+                    method = 'POST';
+                } catch (e) {
+                    document.getElementById('result').innerHTML = `<p style="color: red;">JSONエラー: ${e.message}</p>`;
+                    return;
+                }
+            }
             
             try {
                 const response = await fetch(apiUrl, {
-                    method: 'GET',
+                    method: method,
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    body: requestBody ? JSON.stringify(requestBody) : null
                 });
                 
                 const data = await response.json();
