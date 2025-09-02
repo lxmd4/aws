@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Gateway呼び出し</title>
+</head>
+<body>
+    <h1>AWS API Gateway呼び出し</h1>
+    <button onclick="callApiGateway()">APIを実行</button>
+    <div id="result"></div>
+
+    <script>
+        async function callApiGateway() {
+            const apiUrl = 'https://your-api-id.execute-api.region.amazonaws.com/stage/resource';
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
