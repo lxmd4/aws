@@ -32,10 +32,13 @@ async function callApiGateway() {
 }
 
 async function fetchS3File() {
-    const s3ApiUrl = 'https://or5a21r7o1.execute-api.us-east-1.amazonaws.com/test';
-    
     try {
-        const response = await fetch(s3ApiUrl);
+        const response = await fetch('https://or5a21r7o1.execute-api.us-east-1.amazonaws.com/test', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
         const data = await response.json();
         
         if (data.content) {
