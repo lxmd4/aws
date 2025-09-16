@@ -32,7 +32,7 @@ async function callApiGateway() {
 }
 
 async function fetchS3File() {
-    const s3ApiUrl = 'https://or5a21r7o1.execute-api.us-east-1.amazonaws.com/';
+    const s3ApiUrl = 'https://or5a21r7o1.execute-api.us-east-1.amazonaws.com/test';
     
     try {
         const response = await fetch(s3ApiUrl);
