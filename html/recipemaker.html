@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Gateway呼び出し</title>
+</head>
+<body>
+    <h1>AWS API Gateway呼び出し</h1>
+    
+    <div>
+        <label for="jsonInput">送信するJSONデータ:</label><br>
+        <textarea id="jsonInput" rows="5" cols="50" placeholder='{"input_text": "an image of cat"}'>{"input_text": "an image of cat"}</textarea><br><br>
+        <button onclick="callApiGateway()">APIを実行</button>
+    </div>
+    
+    <div id="result"></div>
+
+    <script src="../js/api.js"></script>
+</body>
+</html>
