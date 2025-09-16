@@ -38,6 +38,7 @@ async function fetchS3File() {
             headers: {
                 'Content-Type': 'application/json'
             },
+            body: null
         });
         const data = await response.json();
         
