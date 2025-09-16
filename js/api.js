@@ -42,11 +42,11 @@ async function fetchS3File() {
         });
         const data = await response.json();
         
-        if (data.content) {
-            document.getElementById('result').innerHTML = `<pre>${data.content}</pre>`;
-        } else {
-            document.getElementById('result').innerHTML = `<p style="color: red;">ファイル内容が見つかりません</p>`;
-        }
+        //if (data.content) {
+            document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        //} else {
+        //    document.getElementById('result').innerHTML = `<p style="color: red;">ファイル内容が見つかりません</p>`;
+        //}
     } catch (error) {
         document.getElementById('result').innerHTML = `<p style="color: red;">S3ファイル取得エラー: ${error.message}</p>`;
     }
