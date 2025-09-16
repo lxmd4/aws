@@ -41,7 +41,7 @@ async function fetchS3File() {
             body: JSON.stringify({ bucket: 'your-bucket', key: 'test.txt' })
         });
         const data = await response.json();
-        const res = data.content;
+        const res = String(data.content);
         
         //if (data.content) {
             document.getElementById('result').innerHTML = `<pre>${res}</pre>`;
