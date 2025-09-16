@@ -38,7 +38,7 @@ async function fetchS3File() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: null
+            body: JSON.stringify({ bucket: 'your-bucket', key: 'test.txt' })
         });
         const data = await response.json();
         
