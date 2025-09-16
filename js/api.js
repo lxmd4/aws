@@ -41,12 +41,12 @@ async function fetchS3File() {
             body: JSON.stringify({ bucket: 'your-bucket', key: 'test.txt' })
         });
         const data = await response.json();
-        const res = toString(data.content);
+        const res = data.content;
         
         //if (data.content) {
             document.getElementById('result').innerHTML = `<pre>${res}</pre>`;
         //} else {
-            document.getElementById('result').innerHTML = `<p style="color: red;">ファイル内容が見つかりません</p>`;
+        //    document.getElementById('result').innerHTML = `<p style="color: red;">ファイル内容が見つかりません</p>`;
         //}
     } catch (error) {
         document.getElementById('result').innerHTML = `<p style="color: red;">S3ファイル取得エラー: ${error.message}</p>`;
