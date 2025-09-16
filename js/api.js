@@ -44,7 +44,7 @@ async function fetchS3File() {
         const res = data.body.content;
         
         //if (data.content) {
-            document.getElementById('result').innerHTML = '<pre>'+res+'</pre>';
+            document.getElementById('result').innerHTML = `<pre>${res}</pre>`;
         //} else {
         //    document.getElementById('result').innerHTML = `<p style="color: red;">ファイル内容が見つかりません</p>`;
         //}
