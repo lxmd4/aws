@@ -12,6 +12,7 @@
         <label for="jsonInput">送信するJSONデータ:</label><br>
         <textarea id="jsonInput" rows="5" cols="50" placeholder='{"input_text": "an image of cat"}'>{"input_text": "an image of cat"}</textarea><br><br>
         <button onclick="callApiGateway()">APIを実行</button>
+        <button onclick="fetchS3File()">S3ファイル取得</button>
     </div>
     
     <div id="result"></div>

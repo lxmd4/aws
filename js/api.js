@@ -30,3 +30,20 @@ async function callApiGateway() {
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
     }
 }
+
+async function fetchS3File() {
+    const s3ApiUrl = 'https://or5a21r7o1.execute-api.us-east-1.amazonaws.com/';
+    
+    try {
+        const response = await fetch(s3ApiUrl);
+        const data = await response.json();
+        
+        if (data.content) {
+            document.getElementById('result').innerHTML = `<pre>${data.content}</pre>`;
+        } else {
+            document.getElementById('result').innerHTML = `<p style="color: red;">ファイル内容が見つかりません</p>`;
+        }
+    } catch (error) {
+        document.getElementById('result').innerHTML = `<p style="color: red;">S3ファイル取得エラー: ${error.message}</p>`;
+    }
+}
