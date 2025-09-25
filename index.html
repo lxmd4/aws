@@ -3,20 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Gateway呼び出し</title>
+    <title>AWS API Gateway 管理システム</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-    <h1>AWS API Gateway呼び出し</h1>
-    
-    <div>
-        <label for="jsonInput">送信するJSONデータ:</label><br>
-        <textarea id="jsonInput" rows="5" cols="50" placeholder='{"input_text": "an image of cat"}'>{"input_text": "an image of cat"}</textarea><br><br>
-        <button onclick="callApiGateway()">APIを実行</button>
-        <button onclick="fetchS3File()">S3ファイル取得</button>
-    </div>
-    
-    <div id="result"></div>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">AWS API Gateway 管理システム</h1>
+                <h2 class="subtitle">API呼び出しとデータ管理</h2>
+            </div>
+        </div>
+    </section>
 
-    <script src="./js/api.js"></script>
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h3 class="title is-4">JSONデータ送信</h3>
+                <div class="field">
+                    <label class="label">送信するJSONデータ</label>
+                    <div class="control">
+                        <textarea id="jsonInput" class="textarea" rows="5" placeholder='{"input_text": "an image of cat"}'>{"input_text": "an image of cat"}</textarea>
+                    </div>
+                </div>
+                
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-primary" onclick="callApiGateway()">APIを実行</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-info" onclick="fetchS3File()">S3ファイル取得</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-success" onclick="generateRecipe()">レシピ生成</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="box">
+                <h3 class="title is-4">実行結果</h3>
+                <div id="result" class="content" style="background: #f5f5f5; padding: 1rem; min-height: 150px; font-family: monospace; white-space: pre-wrap; border-radius: 4px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/api.js"></script>
 </body>
 </html>
