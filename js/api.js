@@ -27,21 +27,10 @@ async function callApiGateway() {
         const data = await response.json();
         document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
         
-        // body内のpresigned_urlをチェック
-        let presignedUrl = null;
-        if (data.body) {
-            try {
-                const bodyData = JSON.parse(data.body);
-                presignedUrl = bodyData.presigned_url;
-            } catch (e) {
-                // bodyがJSONでない場合は無視
-            }
-        }
-        
-        // presigned_urlがある場合は画像を表示
-        if (presignedUrl) {
+        // body内のpresigned_urlを取得
+        if (data.body && data.body.presigned_url) {
             const imageContainer = document.getElementById('image-container');
-            imageContainer.innerHTML = `<img src="${presignedUrl}" alt="Generated Image" style="max-width: 100%; height: auto; margin-top: 1rem; border-radius: 4px;">`;
+            imageContainer.innerHTML = `<img src="${data.body.presigned_url}" alt="Generated Image" style="max-width: 100%; height: auto; margin-top: 1rem; border-radius: 4px;">`;
         }
     } catch (error) {
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
