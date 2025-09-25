@@ -26,6 +26,12 @@ async function callApiGateway() {
         
         const data = await response.json();
         document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        
+        // presigned_urlがある場合は画像を表示
+        if (data.presigned_url) {
+            const imageContainer = document.getElementById('image-container');
+            imageContainer.innerHTML = `<img src="${data.presigned_url}" alt="Generated Image" style="max-width: 100%; height: auto; margin-top: 1rem; border-radius: 4px;">`;
+        }
     } catch (error) {
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
     }
