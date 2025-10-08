@@ -71,16 +71,34 @@ async function uploadImageToS3() {
     const apiUrl = 'https://fj5x27hoc6.execute-api.us-east-1.amazonaws.com/develop';
     
     const reader = new FileReader();
-    document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
-    const response = await fetch(`${apiUrl}/${file.name}`,{
-        method: 'PUT',
-        headers: {
-                         'Content-Type':'image/png'
-                     },
-        body: file
-                    }
-    );
-
-    const data = await response.json();
-    document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+    reader.onload = async (e) => {
+        const base64Data = e.target.result.split(',')[1];
+        
+        const requestBody = {
+            fileName: file.name,
+            headers: {
+                'content-type': file.type
+            },
+            body: base64Data
+        };
+        
+        try {
+            document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
+            
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+            
+            const data = await response.json();
+            document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+        } catch (error) {
+            document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
+        }
+    };
+    
+    reader.readAsDataURL(file);
 }
