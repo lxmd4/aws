@@ -82,7 +82,7 @@ async function uploadImageToS3() {
                 base64Image,
                 {
                     headers: {
-                        "Content-Type": contentType
+                        "Content-Type": 'application/octet-stream'
                     }
                 }
             );
