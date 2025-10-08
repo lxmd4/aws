@@ -77,17 +77,15 @@ async function uploadImageToS3() {
         try {
             document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
             
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    fileName: file.name,
-                    fileType: file.type,
-                    fileData: base64Image
-                })
-            });
+            const response = await axios.put(
+                `${apiUrl}/${file.name}`,
+                base64Image,
+                {
+                    headers: {
+                        "Content-Type": contentType
+                    }
+                }
+            );
             
             const data = await response.json();
             document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
