@@ -58,3 +58,43 @@ async function fetchS3File() {
         document.getElementById('result').innerHTML = `<p style="color: red;">S3ファイル取得エラー: ${error.message}</p>`;
     }
 }
+
+async function uploadImageToS3() {
+    const fileInput = document.getElementById('imageFile');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        document.getElementById('result').innerHTML = '<p style="color: red;">画像を選択してください</p>';
+        return;
+    }
+    
+    const apiUrl = 'https://fj5x27hoc6.execute-api.us-east-1.amazonaws.com/develop';
+    
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        const base64Image = e.target.result.split(',')[1];
+        
+        try {
+            document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
+            
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fileName: file.name,
+                    fileType: file.type,
+                    fileData: base64Image
+                })
+            });
+            
+            const data = await response.json();
+            document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+        } catch (error) {
+            document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
+        }
+    };
+    
+    reader.readAsDataURL(file);
+}

@@ -36,6 +36,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="box">
+                <h3 class="title is-4">S3画像アップロード</h3>
+                <div class="field">
+                    <label class="label">画像を選択</label>
+                    <div class="control">
+                        <input type="file" id="imageFile" class="input" accept="image/*">
+                    </div>
+                </div>
+                <div class="control">
+                    <button class="button is-success" onclick="uploadImageToS3()">S3にアップロード</button>
+                </div>
+            </div>
             
             <div class="box">
                 <h3 class="title is-4">実行結果</h3>
