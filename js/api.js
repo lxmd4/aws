@@ -72,17 +72,17 @@ async function uploadImageToS3() {
     
     const reader = new FileReader();
     reader.onload = async (e) => {
-        const base64Image = e.currentTarget.result;
+        const base64Image = e.currentTarget.result.;
         
         try {
             document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
             
             const response = await axios.put(
                 `${apiUrl}/${file.name}`,
-                base64Image.toString().replace(/^data:image\/(png|jpeg|jpg);base64,/, ""),
+                base64Image,
                 {
                     headers: {
-                        'Content-Type':'image/png'
+                        'Content-Type':'application/json'
                     }
                 }
             );
