@@ -71,28 +71,38 @@ async function uploadImageToS3() {
     const apiUrl = 'https://fj5x27hoc6.execute-api.us-east-1.amazonaws.com/develop';
     
     const reader = new FileReader();
-    reader.onload = async (e) => {
-        const base64Image = e.currentTarget.result;
-        
-        try {
-            document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
-            
-            const response = await axios.put(
-                `${apiUrl}/${file.name}`,
-                base64Image,
-                {
-                    headers: {
-                        'Content-Type':'application/json'
+
+    await fetch(`${apiUrl}/${file.name}`,{
+        method: 'PUT',
+        headers: {
+                         'Content-Type':'image/png'
+                     },
+        body: file
                     }
-                }
-            );
+    );
+
+    // reader.onload = async (e) => {
+    //     const base64Image = e.currentTarget.result;
+        
+    //     try {
+    //         document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
             
-            const data = await response.json();
-            document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
-        } catch (error) {
-            document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
-        }
-    };
+    //         const response = await axios.put(
+    //             `${apiUrl}/${file.name}`,
+    //             base64Image,
+    //             {
+    //                 headers: {
+    //                     'Content-Type':'application/json'
+    //                 }
+    //             }
+    //         );
+            
+    //         const data = await response.json();
+    //         document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+    //     } catch (error) {
+    //         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
+    //     }
+    // };
     
-    reader.readAsDataURL(file);
+    // reader.readAsDataURL(file);
 }
