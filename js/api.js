@@ -79,7 +79,7 @@ async function uploadImageToS3() {
             
             const response = await axios.put(
                 `${apiUrl}/${file.name}`,
-                base64Image,
+                base64Image.toString().replace(/^data:image\/(png|jpeg|jpg);base64,/, "",
                 {
                     headers: {
                         'Content-Type':'image/png'
