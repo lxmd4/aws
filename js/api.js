@@ -72,7 +72,7 @@ async function uploadImageToS3() {
     
     const reader = new FileReader();
     reader.onload = async (e) => {
-        const base64Data = e.target.result.split(',')[1];
+        const base64Data = e.target.result;
         
         const requestBody = {
             fileName: file.name,
