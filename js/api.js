@@ -72,15 +72,7 @@ async function uploadImageToS3() {
     
     const reader = new FileReader();
     reader.onload = async (e) => {
-        const base64Data = e.target.result;
-        
-        const requestBody = {
-            fileName: file.name,
-            headers: {
-                'content-type': file.type
-            },
-            body: base64Data
-        };
+        const base64Data = e.target.result.split(',')[1];
         
         try {
             document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
@@ -88,9 +80,10 @@ async function uploadImageToS3() {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': file.type
                 },
-                body: JSON.stringify(requestBody)
+                fileName: file.name,
+                body: base64Data
             });
             
             const data = await response.json();
