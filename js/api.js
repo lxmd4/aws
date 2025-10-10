@@ -74,16 +74,23 @@ async function uploadImageToS3() {
     reader.onload = async (e) => {
         const base64Data = e.target.result.split(',')[1];
         
+        const requestBody = {
+            fileName: file.name,
+            headers: {
+                'content-type': file.type
+            },
+            data: base64Data
+        };
+        
         try {
             document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
             
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': file.type
+                    'Content-Type': 'application/json'
                 },
-                fileName: file.name,
-                body: base64Data
+                body: JSON.stringify(requestBody)
             });
             
             const data = await response.json();
