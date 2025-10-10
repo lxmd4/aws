@@ -68,7 +68,7 @@ async function uploadImageToS3() {
         return;
     }
     
-    const apiUrl = 'https://fj5x27hoc6.execute-api.us-east-1.amazonaws.com/develop/';
+    const apiUrl = 'https://ty6xb7b681.execute-api.us-east-1.amazonaws.com/develop/test';
     
     const reader = new FileReader();
     reader.onload = async (e) => {
