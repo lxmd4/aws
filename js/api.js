@@ -110,12 +110,21 @@ async function uploadImageToS3() {
 
 async function playS3Audio() {
     const audioUrl = document.getElementById('audioUrl').value;
+    const fileCount = parseInt(document.getElementById('fileCount').value);
     
     if (!audioUrl) {
         document.getElementById('result').innerHTML = '<p style="color: red;">音声URLを入力してください</p>';
         return;
     }
     
+    const baseUrl = audioUrl.replace(/step\d+\.mp3$/, '');
     const audioContainer = document.getElementById('audio-container');
-    audioContainer.innerHTML = `<audio controls autoplay style="width: 100%;"><source src="${audioUrl}" type="audio/mpeg">お使いのブラウザは音声再生に対応していません。</audio>`;
+    let audioHtml = '';
+    
+    for (let i = 1; i <= fileCount; i++) {
+        const url = `${baseUrl}step${i}.mp3`;
+        audioHtml += `<div style="margin-bottom: 0.5rem;"><strong>Step ${i}:</strong><br><audio controls style="width: 100%;"><source src="${url}" type="audio/mpeg"></audio></div>`;
+    }
+    
+    audioContainer.innerHTML = audioHtml;
 }
