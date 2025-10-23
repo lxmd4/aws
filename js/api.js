@@ -107,3 +107,15 @@ async function uploadImageToS3() {
     
     reader.readAsDataURL(file);
 }
+
+async function playS3Audio() {
+    const audioUrl = document.getElementById('audioUrl').value;
+    
+    if (!audioUrl) {
+        document.getElementById('result').innerHTML = '<p style="color: red;">音声URLを入力してください</p>';
+        return;
+    }
+    
+    const audioContainer = document.getElementById('audio-container');
+    audioContainer.innerHTML = `<audio controls autoplay style="width: 100%;"><source src="${audioUrl}" type="audio/mpeg">お使いのブラウザは音声再生に対応していません。</audio>`;
+}

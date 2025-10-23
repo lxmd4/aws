@@ -53,6 +53,20 @@
             </div>
             
             <div class="box">
+                <h3 class="title is-4">S3音声再生</h3>
+                <div class="field">
+                    <label class="label">音声URL</label>
+                    <div class="control">
+                        <input type="text" id="audioUrl" class="input" placeholder="https://...">
+                    </div>
+                </div>
+                <div class="control">
+                    <button class="button is-link" onclick="playS3Audio()">音声を再生</button>
+                </div>
+                <div id="audio-container" style="margin-top: 1rem;"></div>
+            </div>
+            
+            <div class="box">
                 <h3 class="title is-4">実行結果</h3>
                 <div id="result" class="content" style="background: #f5f5f5; padding: 1rem; min-height: 150px; font-family: monospace; white-space: pre-wrap; border-radius: 4px;"></div>
                 <div id="image-container"></div>
