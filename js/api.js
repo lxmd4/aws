@@ -108,6 +108,9 @@ async function uploadImageToS3() {
     reader.readAsDataURL(file);
 }
 
+let currentAudioIndex = 0;
+let audioFiles = [];
+
 async function playS3Audio() {
     const audioUrl = document.getElementById('audioUrl').value;
     const fileCount = parseInt(document.getElementById('fileCount').value);
@@ -118,13 +121,39 @@ async function playS3Audio() {
     }
     
     const baseUrl = audioUrl.replace(/step\d+\.mp3$/, '');
-    const audioContainer = document.getElementById('audio-container');
-    let audioHtml = '';
+    audioFiles = [];
     
     for (let i = 1; i <= fileCount; i++) {
-        const url = `${baseUrl}step${i}.mp3`;
-        audioHtml += `<div style="margin-bottom: 0.5rem;"><strong>Step ${i}:</strong><br><audio controls style="width: 100%;"><source src="${url}" type="audio/mpeg"></audio></div>`;
+        audioFiles.push(`${baseUrl}step${i}.mp3`);
     }
     
-    audioContainer.innerHTML = audioHtml;
+    currentAudioIndex = 0;
+    loadAudio();
+}
+
+function loadAudio() {
+    const audioContainer = document.getElementById('audio-container');
+    audioContainer.innerHTML = `
+        <div style="margin-bottom: 0.5rem;"><strong>Step ${currentAudioIndex + 1} / ${audioFiles.length}</strong></div>
+        <audio id="audioPlayer" controls style="width: 100%;"><source src="${audioFiles[currentAudioIndex]}" type="audio/mpeg"></audio>
+        <div style="margin-top: 0.5rem;">
+            <button class="button is-small" onclick="prevAudio()" ${currentAudioIndex === 0 ? 'disabled' : ''}>前へ</button>
+            <button class="button is-small is-primary" onclick="document.getElementById('audioPlayer').play()">再生</button>
+            <button class="button is-small" onclick="nextAudio()" ${currentAudioIndex === audioFiles.length - 1 ? 'disabled' : ''}>次へ</button>
+        </div>
+    `;
+}
+
+function prevAudio() {
+    if (currentAudioIndex > 0) {
+        currentAudioIndex--;
+        loadAudio();
+    }
+}
+
+function nextAudio() {
+    if (currentAudioIndex < audioFiles.length - 1) {
+        currentAudioIndex++;
+        loadAudio();
+    }
 }
