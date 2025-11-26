@@ -1,3 +1,8 @@
+let currentAudioIndex = 0;
+let audioFiles;
+let fileCount;
+let audioUrl;
+
 async function uploadImageToS3() {
     const fileInput = document.getElementById('imageFile');
     const file = fileInput.files[0];
@@ -109,11 +114,6 @@ async function genelateRecipe() {
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
     }
 }
-
-let currentAudioIndex = 0;
-let audioFiles;
-let fileCount;
-let audioUrl;
 
 async function playS3Audio() {
     const baseUrl = audioUrl.replace(/step\d+\.mp3$/, '');
