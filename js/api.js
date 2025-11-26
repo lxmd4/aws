@@ -1,5 +1,5 @@
 async function callApiGateway() {
-    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/test';
+    const apiUrl = 'https://https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/test.execute-api.us-east-1.amazonaws.com/test';
     const sessionId = document.getElementById('sessid').value;
     const s3ImageUrl = document.getElementById('s3ImageUrl').value;
     
