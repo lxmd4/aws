@@ -94,6 +94,16 @@ async function genelateRecipe() {
             },
             body: JSON.stringify(requestBody)
         });
+
+        const data = await response.json();
+            
+            if (data.step_count) {
+                fileCount = data.step_count;
+            }
+            if (data.audio_urls) {
+                audioUrl = data.audio_urls;
+            }
+
         document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p>`;
     } catch (error) {
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
@@ -102,11 +112,10 @@ async function genelateRecipe() {
 
 let currentAudioIndex = 0;
 let audioFiles = [];
+let fileCount;
+let audioUrl;
 
 async function playS3Audio() {
-    const audioUrl = document.getElementById('audioUrl').value;
-    const fileCount = parseInt(document.getElementById('fileCount').value);
-    
     if (!audioUrl) {
         document.getElementById('result').innerHTML = '<p style="color: red;">音声URLを入力してください</p>';
         return;
