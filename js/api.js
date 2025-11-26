@@ -99,7 +99,7 @@ async function uploadImageToS3() {
                 document.getElementById('sessid').value = data.sessid;
             }
             if (data.url) {
-                document.getElementById('s3ImageUrl').value = data.sessid;
+                document.getElementById('s3ImageUrl').value = data.url;
             }
             
             document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
