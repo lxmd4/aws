@@ -111,16 +111,11 @@ async function genelateRecipe() {
 }
 
 let currentAudioIndex = 0;
-let audioFiles = [];
+let audioFiles;
 let fileCount;
 let audioUrl;
 
 async function playS3Audio() {
-    if (!audioUrl) {
-        document.getElementById('result').innerHTML = '<p style="color: red;">音声URLを入力してください</p>';
-        return;
-    }
-    
     const baseUrl = audioUrl.replace(/step\d+\.mp3$/, '');
     audioFiles = [];
     
