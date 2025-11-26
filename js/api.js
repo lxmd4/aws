@@ -1,29 +1,3 @@
-async function imgRecognition() {
-    const sessionId = document.getElementById('sessid').value;
-    const s3ImageUrl = document.getElementById('s3ImageUrl').value;
-    
-    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/develop/test';    
-    const requestBody = {
-        'sessionId': sessionId,
-        's3ImageUrl': s3ImageUrl
-    };
-        
-    try {
-        document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
-        
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
-        document.getElementById('result').innerHTML = `<p style="color: green;">解析完了!</p>`;
-    } catch (error) {
-        document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
-    }
-}
-
 async function uploadImageToS3() {
     const fileInput = document.getElementById('imageFile');
     const file = fileInput.files[0];
@@ -74,6 +48,56 @@ async function uploadImageToS3() {
     };
     
     reader.readAsDataURL(file);
+}
+
+async function imgRecognition() {
+    const sessionId = document.getElementById('sessid').value;
+    const s3ImageUrl = document.getElementById('s3ImageUrl').value;
+    
+    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/develop/test';    
+    const requestBody = {
+        'sessionId': sessionId,
+        's3ImageUrl': s3ImageUrl
+    };
+        
+    try {
+        document.getElementById('result').innerHTML = '<p>解析中...</p>';
+        
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+        document.getElementById('result').innerHTML = `<p style="color: green;">解析完了!</p>`;
+    } catch (error) {
+        document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
+    }
+}
+
+async function genelateRecipe() {
+    const sessionId = document.getElementById('sessid').value;
+    
+    const apiUrl = 'https://g15c8jena9.execute-api.us-east-1.amazonaws.com/develop/test';    
+    const requestBody = {
+        'sessionId': sessionId
+    };
+        
+    try {
+        document.getElementById('result').innerHTML = '<p>生成中...</p>';
+        
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+        document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p>`;
+    } catch (error) {
+        document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
+    }
 }
 
 let currentAudioIndex = 0;

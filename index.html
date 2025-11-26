@@ -8,6 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
+    <input type="hidden" id="sessid">
+    <input type="hidden" id="s3ImageUrl">
+    
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
@@ -25,8 +28,6 @@
                     <label class="label">画像を選択</label>
                     <div class="control">
                         <input type="file" id="imageFile" class="input" accept="image/*">
-                        <input type="hidden" id="sessid">
-                        <input type="hidden" id="s3ImageUrl">
                     </div>
                 </div>
                 <div class="control">
