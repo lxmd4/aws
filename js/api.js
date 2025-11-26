@@ -86,7 +86,7 @@ async function genelateRecipe() {
     
     const apiUrl = 'https://g15c8jena9.execute-api.us-east-1.amazonaws.com/develop/test';    
     const requestBody = {
-        'sessionId': sessionId
+        'session_id': sessionId
     };
         
     try {
