@@ -1,33 +1,32 @@
 async function callApiGateway() {
-    const apiUrl = 'https://13vhqp41dd.execute-api.us-east-1.amazonaws.com/test20250715-teamx';
-    const jsonInput = document.getElementById('jsonInput').value;
+    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/test';
+    const sessionId = document.getElementById('sessid').value;
+    const s3ImageUrl = document.getElementById('s3ImageUrl').value;
     
-    let requestBody = null;
-    let method = 'GET';
-    
-    if (jsonInput.trim()) {
-        try {
-            requestBody = JSON.parse(jsonInput);
-            method = 'POST';
-        } catch (e) {
-            document.getElementById('result').innerHTML = `<p style="color: red;">JSONエラー: ${e.message}</p>`;
-            return;
-        }
+    if (!sessionId || !s3ImageUrl) {
+        document.getElementById('result').innerHTML = '<p style="color: red;">sessionIdとs3ImageUrlが必要です。先に画像をアップロードしてください。</p>';
+        return;
     }
     
+    const requestBody = {
+        sessionId: sessionId,
+        s3ImageUrl: s3ImageUrl
+    };
+    
     try {
+        document.getElementById('result').innerHTML = '<p>API呼び出し中...</p>';
+        
         const response = await fetch(apiUrl, {
-            method: method,
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: requestBody ? JSON.stringify(requestBody) : null
+            body: JSON.stringify(requestBody)
         });
         
         const data = await response.json();
         document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
         
-        // body内のpresigned_urlを取得
         if (data.body && data.body.presigned_url) {
             const imageContainer = document.getElementById('image-container');
             imageContainer.innerHTML = `<img src="${data.body.presigned_url}" alt="Generated Image" style="max-width: 100%; height: auto; margin-top: 1rem; border-radius: 4px;">`;
