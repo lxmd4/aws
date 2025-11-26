@@ -2,7 +2,7 @@ async function imgRecognition() {
     const sessionId = document.getElementById('sessid').value;
     const s3ImageUrl = document.getElementById('s3ImageUrl').value;
     
-    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/test/';    
+    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/develop/test';    
     const requestBody = {
         'sessionId': sessionId,
         's3ImageUrl': s3ImageUrl
