@@ -1,20 +1,15 @@
-async function callApiGateway() {
-    const apiUrl = 'https://https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/test.execute-api.us-east-1.amazonaws.com/test';
+async function imgRecognition() {
     const sessionId = document.getElementById('sessid').value;
     const s3ImageUrl = document.getElementById('s3ImageUrl').value;
     
-    if (!sessionId || !s3ImageUrl) {
-        document.getElementById('result').innerHTML = '<p style="color: red;">sessionIdとs3ImageUrlが必要です。先に画像をアップロードしてください。</p>';
-        return;
-    }
-    
+    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/test/';    
     const requestBody = {
-        sessionId: sessionId,
-        s3ImageUrl: s3ImageUrl
+        'sessionId': sessionId,
+        's3ImageUrl': s3ImageUrl
     };
-    
+        
     try {
-        document.getElementById('result').innerHTML = '<p>API呼び出し中...</p>';
+        document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
         
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -23,38 +18,9 @@ async function callApiGateway() {
             },
             body: JSON.stringify(requestBody)
         });
-        
-        const data = await response.json();
-        document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-        
-        if (data.body && data.body.presigned_url) {
-            const imageContainer = document.getElementById('image-container');
-            imageContainer.innerHTML = `<img src="${data.body.presigned_url}" alt="Generated Image" style="max-width: 100%; height: auto; margin-top: 1rem; border-radius: 4px;">`;
-        }
+        document.getElementById('result').innerHTML = `<p style="color: green;">解析完了!</p>`;
     } catch (error) {
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
-    }
-}
-
-async function fetchS3File() {
-    try {
-        const response = await fetch('https://or5a21r7o1.execute-api.us-east-1.amazonaws.com/test', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ bucket: 'your-bucket', key: 'test.txt' })
-        });
-        const data = await response.json();
-        const res = data.body.content;
-        
-        if (res) {
-            document.getElementById('result').innerHTML = `<pre>${res}</pre>`;
-        } else {
-            document.getElementById('result').innerHTML = `<p style="color: red;">ファイル内容が見つかりません</p>`;
-        }
-    } catch (error) {
-        document.getElementById('result').innerHTML = `<p style="color: red;">S3ファイル取得エラー: ${error.message}</p>`;
     }
 }
 
