@@ -116,12 +116,7 @@ async function genelateRecipe() {
 }
 
 async function playS3Audio() {
-    const baseUrl = audioUrl[0].replace(/step\d+\.mp3$/, '');
-    audioFiles = [];
-    
-    for (let i = 1; i <= fileCount; i++) {
-        audioFiles.push(`${baseUrl}step${i}.mp3`);
-    }
+    audioFiles = audioUrl;
     
     currentAudioIndex = 0;
     loadAudio();
