@@ -100,16 +100,16 @@ async function genelateRecipe() {
             body: JSON.stringify(requestBody)
         });
 
-        const data = await response.json();
+        const { body } = await response.json();
             
-        if (data.step_count) {
-            fileCount = data.step_count;
+        if (body.step_count) {
+            fileCount = body.step_count;
         }
-        if (data.audio_urls) {
-            audioUrl = data.audio_urls;
+        if (body.audio_urls) {
+            audioUrl = body.audio_urls;
         }
 
-        document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+        document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p><pre>${JSON.stringify(body, null, 2)}</pre>`;
     } catch (error) {
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
     }
