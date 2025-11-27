@@ -101,13 +101,12 @@ async function genelateRecipe() {
         });
 
         const data = await response.json();
-        const body = await data.body.json();
             
-        if (body.step_count) {
-            fileCount = body.step_count;
+        if (data.step_count) {
+            fileCount = data.step_count;
         }
-        if (body.audio_urls) {
-            audioUrl = body.audio_urls;
+        if (data.audio_urls) {
+            audioUrl = data.audio_urls;
         }
 
         document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p>`;
