@@ -109,7 +109,7 @@ async function genelateRecipe() {
             audioUrl = data.audio_urls;
         }
 
-        document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p>`;
+        document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
     } catch (error) {
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
     }
