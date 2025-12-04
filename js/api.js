@@ -155,13 +155,20 @@ async function genelateRecipe() {
             body: JSON.stringify(requestBody)
         });
 
-        const { body } = await response.json();
+        const data = await response.json();
+        const body = typeof data.body === 'string' ? JSON.parse(data.body) : data.body;
             
         if (body.step_count) {
             fileCount = body.step_count;
         }
         if (body.audio_urls) {
             audioUrl = body.audio_urls;
+        }
+        
+        if (body.recipe_url) {
+            const recipeResponse = await fetch(body.recipe_url);
+            const recipeText = await recipeResponse.text();
+            document.getElementById('recipe-result').innerHTML = `<p><strong>レシピ:</strong></p><div style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">${recipeText}</div>`;
         }
 
         document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p><pre>${JSON.stringify(body, null, 2)}</pre>`;
