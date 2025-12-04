@@ -97,6 +97,7 @@ async function imgRecognition() {
     const popup = showPopup('処理中');
     const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/develop/test';
     const results = [];
+    const allIngredients = [];
         
     try {
         document.getElementById('result').innerHTML = '<p>解析中...</p>';
@@ -117,8 +118,13 @@ async function imgRecognition() {
             
             const data = await response.json();
             results.push(data);
+            
+            if (data.ingredients_list) {
+                allIngredients.push(...data.ingredients_list);
+            }
         }
         
+        document.getElementById('ingredients-result').innerHTML = `<p><strong>検出された食材:</strong></p><ul>${allIngredients.map(item => `<li>${item}</li>`).join('')}</ul>`;
         document.getElementById('result').innerHTML = `<p style="color: green;">解析完了! (${s3ImageUrls.length}件)</p><pre>${JSON.stringify(results, null, 2)}</pre>`;
         closePopup(popup);
         showPopup('完了', true);
