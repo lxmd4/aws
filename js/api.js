@@ -2,6 +2,7 @@ let currentAudioIndex = 0;
 let audioFiles;
 let fileCount;
 let audioUrl;
+let s3ImageUrls = [];
 
 function showPopup(message, showButton = false) {
     const popup = document.createElement('div');
@@ -76,8 +77,8 @@ async function uploadImageToS3() {
             if (data.sessid) {
                 document.getElementById('sessid').value = data.sessid;
             }
-            if (i === 0 && data.url) {
-                document.getElementById('s3ImageUrl').value = data.url;
+            if (data.url) {
+                s3ImageUrls.push(data.url);
             }
         }
         
@@ -92,26 +93,33 @@ async function uploadImageToS3() {
 
 async function imgRecognition() {
     const sessionId = document.getElementById('sessid').value;
-    const s3ImageUrl = document.getElementById('s3ImageUrl').value;
     
     const popup = showPopup('処理中');
-    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/develop/test';    
-    const requestBody = {
-        'sessionId': sessionId,
-        's3ImageUrl': s3ImageUrl
-    };
+    const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/develop/test';
+    const results = [];
         
     try {
         document.getElementById('result').innerHTML = '<p>解析中...</p>';
         
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
-        document.getElementById('result').innerHTML = `<p style="color: green;">解析完了!</p>`;
+        for (let i = 0; i < s3ImageUrls.length; i++) {
+            const requestBody = {
+                'sessionId': sessionId,
+                's3ImageUrl': s3ImageUrls[i]
+            };
+            
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+            
+            const data = await response.json();
+            results.push(data);
+        }
+        
+        document.getElementById('result').innerHTML = `<p style="color: green;">解析完了! (${s3ImageUrls.length}件)</p><pre>${JSON.stringify(results, null, 2)}</pre>`;
         closePopup(popup);
         showPopup('完了', true);
     } catch (error) {
