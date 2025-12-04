@@ -3,6 +3,27 @@ let audioFiles;
 let fileCount;
 let audioUrl;
 
+function showPopup(message, showButton = false) {
+    const popup = document.createElement('div');
+    popup.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px 40px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.3);z-index:9999;font-size:18px;text-align:center';
+    popup.innerHTML = `<div>${message}</div>`;
+    if (showButton) {
+        const btn = document.createElement('button');
+        btn.textContent = 'OK';
+        btn.style.cssText = 'margin-top:15px;padding:8px 30px;background:#3273dc;color:white;border:none;border-radius:4px;cursor:pointer;font-size:16px';
+        btn.onclick = () => closePopup(popup);
+        popup.appendChild(btn);
+    }
+    document.body.appendChild(popup);
+    return popup;
+}
+
+function closePopup(popup) {
+    if (popup && popup.parentNode) {
+        popup.parentNode.removeChild(popup);
+    }
+}
+
 async function uploadImageToS3() {
     const fileInput = document.getElementById('imageFile');
     const file = fileInput.files[0];
@@ -12,6 +33,7 @@ async function uploadImageToS3() {
         return;
     }
     
+    const popup = showPopup('処理中');
     const apiUrl = 'https://ty6xb7b681.execute-api.us-east-1.amazonaws.com/develop/test';
     
     const reader = new FileReader();
@@ -47,7 +69,10 @@ async function uploadImageToS3() {
             }
             
             document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            closePopup(popup);
+            showPopup('完了', true);
         } catch (error) {
+            closePopup(popup);
             document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
         }
     };
@@ -59,6 +84,7 @@ async function imgRecognition() {
     const sessionId = document.getElementById('sessid').value;
     const s3ImageUrl = document.getElementById('s3ImageUrl').value;
     
+    const popup = showPopup('処理中');
     const apiUrl = 'https://v7mxxdc3r5.execute-api.us-east-1.amazonaws.com/develop/test';    
     const requestBody = {
         'sessionId': sessionId,
@@ -76,7 +102,10 @@ async function imgRecognition() {
             body: JSON.stringify(requestBody)
         });
         document.getElementById('result').innerHTML = `<p style="color: green;">解析完了!</p>`;
+        closePopup(popup);
+        showPopup('完了', true);
     } catch (error) {
+        closePopup(popup);
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
     }
 }
@@ -84,6 +113,7 @@ async function imgRecognition() {
 async function genelateRecipe() {
     const sessionId = document.getElementById('sessid').value;
     
+    const popup = showPopup('処理中');
     const apiUrl = 'https://g15c8jena9.execute-api.us-east-1.amazonaws.com/develop/test';    
     const requestBody = {
         'session_id': sessionId
@@ -110,7 +140,10 @@ async function genelateRecipe() {
         }
 
         document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p><pre>${JSON.stringify(body, null, 2)}</pre>`;
+        closePopup(popup);
+        showPopup('完了', true);
     } catch (error) {
+        closePopup(popup);
         document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
     }
 }
