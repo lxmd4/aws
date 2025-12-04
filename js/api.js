@@ -47,6 +47,11 @@ async function uploadImageToS3() {
                 reader.onload = (e) => resolve(e.target.result.split(',')[1]);
                 reader.readAsDataURL(file);
             });
+
+            sessid = document.getElementById('sessid').value
+            if(!sessid){
+                sessid=''
+            }
             
             const requestBody = {
                 fileName: file.name,
