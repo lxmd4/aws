@@ -26,30 +26,36 @@ function closePopup(popup) {
 
 async function uploadImageToS3() {
     const fileInput = document.getElementById('imageFile');
-    const file = fileInput.files[0];
+    const files = fileInput.files;
     
-    if (!file) {
+    if (files.length === 0) {
         document.getElementById('result').innerHTML = '<p style="color: red;">画像を選択してください</p>';
         return;
     }
     
     const popup = showPopup('処理中');
     const apiUrl = 'https://ty6xb7b681.execute-api.us-east-1.amazonaws.com/develop/test';
+    const results = [];
     
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-        const base64Data = e.target.result.split(',')[1];
+    try {
+        document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
         
-        const requestBody = {
-            fileName: file.name,
-            headers: {
-                'content-type': file.type
-            },
-            data: base64Data
-        };
-        
-        try {
-            document.getElementById('result').innerHTML = '<p>アップロード中...</p>';
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const base64Data = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+                reader.readAsDataURL(file);
+            });
+            
+            const requestBody = {
+                fileName: file.name,
+                headers: {
+                    'content-type': file.type
+                },
+                data: base64Data,
+                sessid: document.getElementById('sessid').value
+            };
             
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -60,24 +66,23 @@ async function uploadImageToS3() {
             });
             
             const data = await response.json();
+            results.push(data);
             
             if (data.sessid) {
                 document.getElementById('sessid').value = data.sessid;
             }
-            if (data.url) {
+            if (i === 0 && data.url) {
                 document.getElementById('s3ImageUrl').value = data.url;
             }
-            
-            document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
-            closePopup(popup);
-            showPopup('完了', true);
-        } catch (error) {
-            closePopup(popup);
-            document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
         }
-    };
-    
-    reader.readAsDataURL(file);
+        
+        document.getElementById('result').innerHTML = `<p style="color: green;">アップロード成功! (${files.length}件)</p><pre>${JSON.stringify(results, null, 2)}</pre>`;
+        closePopup(popup);
+        showPopup('完了', true);
+    } catch (error) {
+        closePopup(popup);
+        document.getElementById('result').innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
+    }
 }
 
 async function imgRecognition() {
