@@ -117,10 +117,11 @@ async function imgRecognition() {
             });
             
             const data = await response.json();
-            results.push(data);
+            const body = typeof data.body === 'string' ? JSON.parse(data.body) : data.body;
+            results.push(body);
             
-            if (data.ingredients_list) {
-                allIngredients.push(...data.ingredients_list);
+            if (body.ingredients) {
+                allIngredients.push(...body.ingredients);
             }
         }
         
