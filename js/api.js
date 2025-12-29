@@ -164,11 +164,18 @@ async function genelateRecipe() {
         if (body.audio_urls) {
             audioUrl = body.audio_urls;
         }
+        if (body.image_url) {
+            imageUrl = body.image_url;
+        }
         
         if (body.recipe_url) {
             const recipeResponse = await fetch(body.recipe_url);
             const recipeText = await recipeResponse.text();
             document.getElementById('recipe-result').innerHTML = `<p><strong>レシピ:</strong></p><div style="background: #f5f5f5; padding: 1rem; border-radius: 4px;">${recipeText}</div>`;
+        }
+        
+        if (body.image_url) {
+            document.getElementById('recipe-image').innerHTML = `<img src="${body.image_url}" style="max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" alt="レシピ画像">`;
         }
 
         document.getElementById('result').innerHTML = `<p style="color: green;">生成完了!</p><pre>${JSON.stringify(body, null, 2)}</pre>`;
